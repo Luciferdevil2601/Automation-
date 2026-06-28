@@ -1,0 +1,50 @@
+name: Clinical Job Tracker
+
+on:
+  schedule:
+    # GitHub Actions cron is UTC.
+    # 02:30 UTC = 08:00 IST, 12:30 UTC = 18:00 IST.
+    - cron: "30 2,12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-and-email:
+    if: ${{ vars.AUTOMATION_ACTIVE != 'false' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Run job tracker
+        env:
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_APP_PASSWORD: ${{ secrets.SENDER_APP_PASSWORD }}
+          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+          STOP_BUTTON_URL: ${{ secrets.STOP_BUTTON_URL }}
+          AUTOMATION_ACTIVE: ${{ vars.AUTOMATION_ACTIVE }}
+          MAX_JOBS_PER_EMAIL: "25"
+          SEND_EMPTY_DIGEST: "false"
+        run: python job_tracker.py
+
+      - name: Commit seen-job state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/seen_jobs.json latest_jobs.json
+          git diff --cached --quiet || git commit -m "Update job tracker state"
+          git push

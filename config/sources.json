@@ -1,0 +1,48 @@
+{
+  "sources": [
+    {
+      "name": "PharmaBharat Home",
+      "url": "https://pharmabharat.org/",
+      "enabled": true,
+      "selectors": {
+        "card": "article, .post, .entry, .card, li",
+        "title": "h1, h2, h3, .entry-title, a",
+        "link": "h1 a, h2 a, h3 a, .entry-title a, a[href]"
+      }
+    },
+    {
+      "name": "PharmaBharat Jobs",
+      "url": "https://pharmabharat.org/jobs/",
+      "enabled": true,
+      "selectors": {
+        "card": "article, .post, .entry, .card, li",
+        "title": "h1, h2, h3, .entry-title, a",
+        "link": "h1 a, h2 a, h3 a, .entry-title a, a[href]"
+      }
+    },
+    {
+      "name": "IQVIA Careers India",
+      "url": "https://jobs.iqvia.com/en/search-jobs/India/24443/2/1269750/20x0/77x0/50/2",
+      "enabled": true,
+      "default_company": "IQVIA"
+    },
+    {
+      "name": "Parexel Careers India",
+      "url": "https://jobs.parexel.com/en/search-jobs/India/877/2/1269750/20x0/77x0/50/2",
+      "enabled": true,
+      "default_company": "Parexel"
+    },
+    {
+      "name": "Syneos Health Careers India",
+      "url": "https://syneoshealth-clinicalcareers.com/jobs/?location=India",
+      "enabled": true,
+      "default_company": "Syneos Health"
+    },
+    {
+      "name": "Labcorp Careers India",
+      "url": "https://careers.labcorp.com/global/en/search-results?keywords=clinical&location=India",
+      "enabled": true,
+      "default_company": "Labcorp"
+    }
+  ]
+}
